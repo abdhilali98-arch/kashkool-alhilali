@@ -1,0 +1,789 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <link rel="manifest" href="manifest.webmanifest">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>كشكول-الهلالي</title>
+
+<style>
+:root {
+  --black: #0b0d0b;
+  --panel: #141914;
+  --gold: #c6a45b;
+  --gold-light: #e3c77f;
+  --moss: #596b43;
+  --text: #eeeade;
+  --muted: #999b8d;
+  --border: #333a2e;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 25px 18px;
+  background: var(--black);
+  color: var(--text);
+  font-family: Tahoma, Arial, sans-serif;
+}
+
+header {
+  text-align: center;
+  padding: 20px 10px 30px;
+}
+
+.logo {
+  color: var(--gold);
+  font-size: 35px;
+  margin-bottom: 10px;
+}
+
+header h1 {
+  color: var(--gold-light);
+  font-size: 32px;
+  margin: 0 0 12px;
+}
+
+header p {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.line {
+  width: 75px;
+  height: 2px;
+  background: var(--gold);
+  margin: 20px auto;
+}
+
+.container {
+  max-width: 1150px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 370px 1fr;
+  gap: 22px;
+  align-items: start;
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 0 10px 35px #00000055;
+}
+
+h2 {
+  color: var(--gold);
+  font-size: 19px;
+  margin: 0 0 22px;
+}
+
+label {
+  display: block;
+  margin: 17px 0 9px;
+  color: var(--gold-light);
+  font-size: 13px;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 13px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: #0d110d;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+}
+
+input:focus, textarea:focus {
+  border-color: var(--gold);
+}
+
+input[type="date"] {
+  color-scheme: dark;
+}
+
+textarea {
+  min-height: 240px;
+  resize: vertical;
+  line-height: 2;
+}
+
+input[type="color"] {
+  height: 45px;
+  padding: 4px;
+  cursor: pointer;
+}
+
+.colors {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 9px;
+  margin-top: 15px;
+}
+
+.color {
+  width: 100%;
+  aspect-ratio: 1;
+  padding: 0;
+  border-radius: 8px;
+  border: 2px solid #ffffff22;
+  cursor: pointer;
+}
+
+.color.selected {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.save {
+  width: 100%;
+  margin-top: 22px;
+  padding: 14px;
+  border: 0;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #c6a45b, #8f7137);
+  color: #15140f;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.cancel {
+  width: 100%;
+  margin-top: 10px;
+  padding: 12px;
+  border: 0;
+  border-radius: 10px;
+  background: var(--moss);
+  color: white;
+}
+
+.voice-btn {
+  width: 100%;
+  margin-top: 10px;
+  padding: 13px;
+  background: var(--moss);
+  color: white;
+  border: 1px solid #78865b;
+  border-radius: 10px;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+.voice-btn:hover {
+  background: #6d8053;
+}
+
+.voice-btn.recording {
+  background: #a33b32;
+  border-color: #d46a5f;
+}
+
+.voice-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.voice-status {
+  color: var(--gold);
+  font-size: 12px;
+  margin-top: 8px;
+  line-height: 1.8;
+}
+
+.notes-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  gap: 10px;
+}
+
+.notes-header h2 {
+  margin: 0;
+}
+
+.count {
+  color: var(--gold);
+  font-size: 13px;
+}
+
+.notes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.note {
+  padding: 19px;
+  border-radius: 13px;
+  min-height: 180px;
+  color: #171914;
+  overflow-wrap: anywhere;
+  box-shadow: 0 5px 15px #00000030;
+}
+
+.note small {
+  opacity: 0.75;
+}
+
+.note h3 {
+  margin: 13px 0;
+  font-size: 17px;
+}
+
+.note p {
+  white-space: pre-wrap;
+  line-height: 1.8;
+  font-size: 14px;
+}
+
+.note button {
+  background: #00000018;
+  color: #171914;
+  margin: 5px 3px 0 0;
+  padding: 8px 12px;
+  border: 0;
+  border-radius: 7px;
+}
+
+.empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 50px 15px;
+  border: 1px dashed var(--border);
+  border-radius: 13px;
+  color: var(--muted);
+  line-height: 2;
+}
+
+@media (max-width: 850px) {
+  .container {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 550px) {
+  .notes {
+    grid-template-columns: 1fr;
+  }
+
+  header h1 {
+    font-size: 25px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">✦</div>
+  <h1>كشكول-الهلالي</h1>
+  <p>مساحتك الخاصة للأفكار والملاحظات والذكريات</p>
+  <div class="line"></div>
+</header>
+
+<div class="container">
+
+  <!-- نموذج إضافة الملاحظات -->
+  <section class="panel">
+
+    <h2 id="formTitle">✦ ملاحظة جديدة</h2>
+
+    <form id="noteForm">
+
+      <label>تاريخ الملاحظة</label>
+      <input type="date" id="date" required>
+
+      <label>عنوان الملاحظة</label>
+      <input
+        type="text"
+        id="title"
+        placeholder="اكتب عنوان الملاحظة..."
+        required
+      >
+
+      <label>اكتب ملاحظتك</label>
+
+      <textarea
+        id="content"
+        placeholder="ابدأ الكتابة هنا..."
+      ></textarea>
+
+      <!-- زر الكتابة الصوتية -->
+      <button
+        type="button"
+        id="voiceBtn"
+        class="voice-btn"
+      >
+        🎙️ ابدأ الكتابة الصوتية
+      </button>
+
+      <p id="voiceStatus" class="voice-status">
+        اضغط على الميكروفون وتحدث.
+      </p>
+
+      <label>لون الملاحظة</label>
+      <input type="color" id="color" value="#e3c77f">
+
+      <div class="colors" id="colors"></div>
+
+      <button
+        class="save"
+        type="submit"
+        id="saveBtn"
+      >
+        حفظ الملاحظة
+      </button>
+
+      <button
+        class="cancel"
+        type="button"
+        id="cancelBtn"
+        onclick="resetForm()"
+        hidden
+      >
+        إلغاء التعديل
+      </button>
+
+    </form>
+  </section>
+
+  <!-- قائمة الملاحظات -->
+  <section class="panel">
+
+    <div class="notes-header">
+      <h2>ملاحظاتي المحفوظة</h2>
+      <span class="count" id="count">0 ملاحظة</span>
+    </div>
+
+    <div class="notes" id="notes">
+      <div class="empty">
+        ✦<br>
+        لا توجد ملاحظات حتى الآن<br>
+        ابدأ بكتابة أول ملاحظة لك
+      </div>
+    </div>
+
+  </section>
+
+</div>
+
+<script>
+
+// =================================
+// إعداد الملاحظات والتخزين
+// =================================
+
+let notes = JSON.parse(
+  localStorage.getItem("myNotes") || "[]"
+);
+
+let editingId = null;
+
+const date = document.getElementById("date");
+const title = document.getElementById("title");
+const content = document.getElementById("content");
+const color = document.getElementById("color");
+const notesContainer = document.getElementById("notes");
+
+function today() {
+  const d = new Date();
+
+  return [
+    d.getFullYear(),
+    String(d.getMonth() + 1).padStart(2, "0"),
+    String(d.getDate()).padStart(2, "0")
+  ].join("-");
+}
+
+date.value = today();
+
+function saveStorage() {
+  localStorage.setItem(
+    "myNotes",
+    JSON.stringify(notes)
+  );
+}
+
+// =================================
+// ألوان الملاحظات
+// =================================
+
+const palette = [
+  "#E3C77F", "#D6B56D", "#F5DFA6", "#C6A45B",
+  "#596B43", "#78865B", "#A2A77A", "#D7DDC1",
+  "#E8DCC5", "#B8A58A", "#D5BFA0", "#A8B7A0",
+  "#C9D2B8", "#B6A58A", "#E2C7A9", "#A6B7A8",
+  "#C2A7A0", "#E9D6D0", "#A6A0B8", "#D4C8E0",
+  "#9DADBD", "#C4D3DC", "#E0D3A8", "#B9C3A3",
+  "#F1E6CC", "#A3B18A", "#DDAF8B", "#C3A6A0"
+];
+
+function selectColor(value) {
+  color.value = value;
+
+  document.querySelectorAll(".color").forEach(button => {
+    button.classList.toggle(
+      "selected",
+      button.dataset.value === value.toLowerCase()
+    );
+  });
+}
+
+palette.forEach(value => {
+  const button = document.createElement("button");
+
+  button.type = "button";
+  button.className = "color";
+  button.style.background = value;
+  button.dataset.value = value.toLowerCase();
+  button.title = value;
+
+  button.onclick = () => selectColor(value);
+
+  document.getElementById("colors").appendChild(button);
+});
+
+color.addEventListener("input", () => {
+  selectColor(color.value);
+});
+
+// =================================
+// حفظ الملاحظة
+// =================================
+
+document.getElementById("noteForm").addEventListener(
+  "submit",
+  function(event) {
+
+    event.preventDefault();
+
+    const note = {
+      id: editingId || Date.now().toString(),
+      date: date.value,
+      title: title.value.trim(),
+      content: content.value.trim(),
+      color: color.value
+    };
+
+    if (editingId) {
+      notes = notes.map(n =>
+        n.id === editingId ? note : n
+      );
+    } else {
+      notes.push(note);
+    }
+
+    saveStorage();
+    renderNotes();
+    resetForm();
+  }
+);
+
+// =================================
+// عرض الملاحظات
+// =================================
+
+function renderNotes() {
+
+  notesContainer.innerHTML = "";
+
+  document.getElementById("count").textContent =
+    notes.length + " ملاحظة";
+
+  if (notes.length === 0) {
+
+    notesContainer.innerHTML = `
+      <div class="empty">
+        ✦<br>
+        لا توجد ملاحظات حتى الآن<br>
+        ابدأ بكتابة أول ملاحظة لك
+      </div>
+    `;
+
+    return;
+  }
+
+  [...notes]
+    .sort((a, b) => b.date.localeCompare(a.date))
+    .forEach(note => {
+
+      const card = document.createElement("article");
+      card.className = "note";
+      card.style.background = note.color;
+
+      const formattedDate = new Date(
+        note.date + "T12:00:00"
+      ).toLocaleDateString("ar-OM");
+
+      const dateText = document.createElement("small");
+      dateText.textContent = formattedDate;
+
+      const heading = document.createElement("h3");
+      heading.textContent = note.title;
+
+      const paragraph = document.createElement("p");
+      paragraph.textContent = note.content;
+
+      const edit = document.createElement("button");
+      edit.textContent = "تعديل";
+      edit.onclick = () => editNote(note.id);
+
+      const remove = document.createElement("button");
+      remove.textContent = "حذف";
+      remove.onclick = () => deleteNote(note.id);
+
+      card.append(
+        dateText,
+        heading,
+        paragraph,
+        edit,
+        remove
+      );
+
+      notesContainer.appendChild(card);
+    });
+}
+
+// =================================
+// تعديل الملاحظات
+// =================================
+
+function editNote(id) {
+
+  const note = notes.find(n => n.id === id);
+
+  if (!note) return;
+
+  editingId = id;
+
+  date.value = note.date;
+  title.value = note.title;
+  content.value = note.content;
+
+  selectColor(note.color);
+
+  document.getElementById("formTitle").textContent =
+    "تعديل الملاحظة";
+
+  document.getElementById("saveBtn").textContent =
+    "حفظ التعديلات";
+
+  document.getElementById("cancelBtn").hidden = false;
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+}
+
+// =================================
+// حذف الملاحظات
+// =================================
+
+function deleteNote(id) {
+
+  if (!confirm("هل تريد حذف هذه الملاحظة؟")) {
+    return;
+  }
+
+  notes = notes.filter(n => n.id !== id);
+
+  saveStorage();
+  renderNotes();
+
+  if (editingId === id) {
+    resetForm();
+  }
+}
+
+// =================================
+// إعادة ضبط النموذج
+// =================================
+
+function resetForm() {
+
+  editingId = null;
+
+  document.getElementById("noteForm").reset();
+
+  date.value = today();
+
+  selectColor("#e3c77f");
+
+  document.getElementById("formTitle").textContent =
+    "✦ ملاحظة جديدة";
+
+  document.getElementById("saveBtn").textContent =
+    "حفظ الملاحظة";
+
+  document.getElementById("cancelBtn").hidden = true;
+}
+
+// =================================
+// الكتابة الصوتية
+// =================================
+
+const voiceBtn = document.getElementById("voiceBtn");
+const voiceStatus = document.getElementById("voiceStatus");
+
+const SpeechRecognition =
+  window.SpeechRecognition ||
+  window.webkitSpeechRecognition;
+
+let recognition = null;
+let isRecording = false;
+let voiceBaseText = "";
+
+if (SpeechRecognition) {
+
+  recognition = new SpeechRecognition();
+
+  recognition.lang = "ar-OM";
+  recognition.continuous = true;
+  recognition.interimResults = true;
+
+  recognition.onstart = function() {
+
+    isRecording = true;
+
+    voiceBaseText = content.value.trim();
+
+    voiceBtn.classList.add("recording");
+    voiceBtn.textContent = "⏹ إيقاف التسجيل";
+
+    voiceStatus.textContent =
+      "أستمع إليك الآن... تحدث بوضوح.";
+
+  };
+
+  recognition.onresult = function(event) {
+
+    let finalText = "";
+    let interimText = "";
+
+    for (
+      let i = 0;
+      i < event.results.length;
+      i++
+    ) {
+
+      const transcript = event.results[i][0].transcript;
+
+      if (event.results[i].isFinal) {
+        finalText += transcript + " ";
+      } else {
+        interimText += transcript;
+      }
+    }
+
+    const currentText = voiceBaseText
+      ? voiceBaseText + " " + finalText.trim()
+      : finalText.trim();
+
+    content.value = currentText +
+      (interimText ? " " + interimText : "");
+  };
+
+  recognition.onend = function() {
+
+    isRecording = false;
+
+    voiceBtn.classList.remove("recording");
+
+    voiceBtn.textContent =
+      "🎙️ ابدأ الكتابة الصوتية";
+
+    voiceStatus.textContent =
+      "انتهى التسجيل. يمكنك تعديل النص أو حفظ الملاحظة.";
+
+  };
+
+  recognition.onerror = function(event) {
+
+    isRecording = false;
+
+    voiceBtn.classList.remove("recording");
+
+    voiceBtn.textContent =
+      "🎙️ ابدأ الكتابة الصوتية";
+
+    if (event.error === "not-allowed") {
+
+      voiceStatus.textContent =
+        "يرجى السماح للمتصفح باستخدام الميكروفون.";
+
+    } else if (event.error === "no-speech") {
+
+      voiceStatus.textContent =
+        "لم أسمع كلامًا. حاول مرة أخرى.";
+
+    } else {
+
+      voiceStatus.textContent =
+        "حدث خطأ في الكتابة الصوتية: " + event.error;
+
+    }
+  };
+
+  voiceBtn.addEventListener("click", function() {
+
+    if (!isRecording) {
+
+      try {
+
+        recognition.start();
+
+      } catch (error) {
+
+        voiceStatus.textContent =
+          "تعذر بدء التسجيل. حاول مرة أخرى.";
+
+      }
+
+    } else {
+
+      recognition.stop();
+
+    }
+
+  });
+
+} else {
+
+  voiceBtn.disabled = true;
+
+  voiceBtn.textContent =
+    "الكتابة الصوتية غير مدعومة";
+
+  voiceStatus.textContent =
+    "جرّب استخدام Google Chrome أو متصفحًا يدعم الكتابة الصوتية.";
+
+}
+
+// =================================
+// تشغيل الموقع
+// =================================
+
+selectColor("#e3c77f");
+renderNotes();
+
+</script>
+
+</body>
+</html>
+

@@ -1,0 +1,16 @@
+
+{
+  "name": "كشكول الهلالي",
+  "short_name": "كشكولي",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#0b0d0b",
+  "theme_color": "#0b0d0b",
+  "icons": [
+    {
+      "src": "./icon.png.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
